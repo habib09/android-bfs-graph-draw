@@ -14,13 +14,13 @@ public class MainActivity extends Activity{
 	public static ArrayList<ArrayList<Integer>> grap;
 	public static int gSize;
 	private int heigth_grap;
-	ArrayList<Integer> bfsgrap = new ArrayList<Integer>();
+	private ArrayList<Integer> bfsgrap = new ArrayList<Integer>();
 	Context context;
 	private int[] par;
 	private int[] taken;
 	private int[] level;
 	private int[] num_of_nodes_inlevel;
-	DrawGrapView drawGrapView;
+	private DrawGrapView drawGrapView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,9 +72,8 @@ public class MainActivity extends Activity{
 		drawBFS();
 	}
 
-	public void drawBFS() {
+	private void drawBFS() {
 		Intent intent = new Intent(this,SubActivity.class);
-		intent.putExtra("level", level);
 		intent.putExtra("num_of_nodes_inlevel", num_of_nodes_inlevel);
 		intent.putExtra("height_grap", heigth_grap);
 		intent.putExtra("par", par);

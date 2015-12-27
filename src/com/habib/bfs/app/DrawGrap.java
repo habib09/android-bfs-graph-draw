@@ -12,13 +12,11 @@ import android.graphics.Point;
 import android.view.SurfaceHolder;
 
 public class DrawGrap {
-	
-	int[] level;
-	int[] num_of_nodes_inlevel;
-	int height_grap;
-	int[] par;
-	ArrayList<Integer> bfsgrap;
-	ArrayList<Point> drawn_node;
+	private int[] num_of_nodes_inlevel;
+	private int height_grap;
+	private int[] par;
+	private ArrayList<Integer> bfsgrap;
+	private ArrayList<Point> drawn_node;
 	
 	private int columMarjin;
 	private int rowMarjin;
@@ -33,10 +31,8 @@ public class DrawGrap {
 			this.rowMarjin = rowMarjin;
 	}
 	
-	public void setdata(int[] level, int[] num_of_nodes_inlevel, int[] par,
-			int height_grap, ArrayList<Integer> bfsgrap) {
+	public void setdata(int[] num_of_nodes_inlevel,int[] par,int height_grap, ArrayList<Integer> bfsgrap){
 		this.height_grap = height_grap;
-		this.level = level;
 		this.par = par;
 		this.num_of_nodes_inlevel = num_of_nodes_inlevel;
 		this.bfsgrap = bfsgrap;

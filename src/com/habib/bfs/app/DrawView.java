@@ -12,13 +12,12 @@ import android.view.SurfaceView;
 
 public class DrawView extends SurfaceView implements Callback{
 	
-	int[] level;
-	int[] num_of_nodes_inlevel;
-	int height_grap;
-	int[] par;
-	ArrayList<Integer> bfsgrap;
+	private int[] num_of_nodes_inlevel;
+	private int height_grap;
+	private int[] par;
+	private ArrayList<Integer> bfsgrap;
 
-	SurfaceHolder holder;
+	private SurfaceHolder holder;
 	Context context;
 	
 	public DrawView(Context context) {
@@ -29,9 +28,8 @@ public class DrawView extends SurfaceView implements Callback{
 	}
 	
 	
-	public void set(int[] level, int[] num_of_nodes_inlevel, int height_grap, int[] par,
+	public void set(int[] num_of_nodes_inlevel, int height_grap, int[] par,
 			ArrayList<Integer> bfsgrap) {
-		this.level = level;
 		this.num_of_nodes_inlevel = num_of_nodes_inlevel;
 		this.height_grap = height_grap;
 		this.par = par;
@@ -42,7 +40,7 @@ public class DrawView extends SurfaceView implements Callback{
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		DrawGrap drawGrap = new DrawGrap(holder,getHeight(),getWidth());
-		drawGrap.setdata(level, num_of_nodes_inlevel, par, height_grap, bfsgrap);
+		drawGrap.setdata(num_of_nodes_inlevel, par, height_grap, bfsgrap);
 		
 		drawGrap.draw();
 		drawGrap.stop();

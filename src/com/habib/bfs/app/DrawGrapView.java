@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -16,21 +15,20 @@ import android.widget.Toast;
 
 public class DrawGrapView extends SurfaceView implements Callback {
 
-	SurfaceHolder holder;
-	Paint paint = new Paint();
-	Canvas canvas;
-	Canvas backupCanvas;
-	Boolean already_drawn = false;
-	Paint textpaint = new Paint();
-	int screenWidth = 0,screenHeight = 0, u, v,helper, INF = Integer.MAX_VALUE;
-	int startx, starty, endx, endy;//for edge draw
-	int left = 640, top = 20, right = 760, bottom = 100; //rectangle parameter
-	ArrayList<Point> vertexPoint = new ArrayList<Point>();
-	ArrayList<Point> edgeU = new ArrayList<Point>();
-	ArrayList<Point> edgeV = new ArrayList<Point>();
-	ArrayList<ArrayList<Integer>> grap;
-	Boolean root = false;
-	MainActivity mainActivity;
+	private SurfaceHolder holder;
+	private Paint paint = new Paint();
+	private Canvas canvas;
+	private Boolean already_drawn = false;
+	private Paint textpaint = new Paint();
+	private int screenWidth = 0,screenHeight = 0, u, v,helper, INF = Integer.MAX_VALUE;
+	private int startx, starty, endx, endy;//for edge draw
+	private int left = 640, top = 20, right = 760, bottom = 100; //rectangle parameter
+	private ArrayList<Point> vertexPoint = new ArrayList<Point>();
+	private ArrayList<Point> edgeU = new ArrayList<Point>();
+	private ArrayList<Point> edgeV = new ArrayList<Point>();
+	private ArrayList<ArrayList<Integer>> grap;
+	private Boolean root = false;
+	private MainActivity mainActivity;
 	
 	public DrawGrapView(MainActivity mainActivity) {
 		super(mainActivity);
@@ -43,7 +41,7 @@ public class DrawGrapView extends SurfaceView implements Callback {
 		grap = new ArrayList<ArrayList<Integer>>();
 	}
 	
-	public boolean boundaryCheck(int cx,int cy){
+	private boolean boundaryCheck(int cx,int cy){
 		//Log.d("my tag", cx +"  " + cy);
 		int lowerlimit_x = 0;
 		int upperlimit_x = 0;
@@ -85,10 +83,10 @@ public class DrawGrapView extends SurfaceView implements Callback {
 			
 			if (startx >= left && startx <= right && starty >= top && starty <= bottom) {
 				Toast.makeText(mainActivity.context, "Touch a vertex for "
-						+ "source", Toast.LENGTH_LONG).show();
+						+ "source", Toast.LENGTH_SHORT).show();
 				root = true;
 				//constructGrap();
-				Log.d("my tag", "before return");
+				
 				return true;
 			}
 			//0, top, 130, bottom
@@ -116,19 +114,20 @@ public class DrawGrapView extends SurfaceView implements Callback {
 				u = helper;
 				if (boundaryCheck(startx,starty) == true && boundaryCheck(endx,endy) == true) {
 					v = helper;
-					Log.d("afre", "not return");
-					edgeU.add(new Point(vertexPoint.get(u).x,vertexPoint.get(u).y));
-					edgeV.add(new Point(vertexPoint.get(v).x,vertexPoint.get(v).y));
-					grap.get(u).add(v);
-					grap.get(v).add(u);//undirected graph 
+					//Log.d("afre", "not return");
+					//undirected graph 
 					
-					draw();// draw an edge to canvas
+					
 					if (root && u == v) {
 						constructGrap(helper);
 						root = false;
-						edgeU.remove(edgeU.size() - 1);
-						edgeV.remove(edgeV.size() - 1);
+						return true;
 					}
+					edgeU.add(new Point(vertexPoint.get(u).x,vertexPoint.get(u).y));
+					edgeV.add(new Point(vertexPoint.get(v).x,vertexPoint.get(v).y));
+					grap.get(u).add(v);
+					grap.get(v).add(u);
+					draw();// draw an edge to canvas
 					u = v = INF;
 				}
 			}
@@ -141,10 +140,10 @@ public class DrawGrapView extends SurfaceView implements Callback {
 		mainActivity.mainAlgo(src);
 	}
 
-	public void draw(){
+	private void draw(){
 		
 		canvas = holder.lockCanvas();
-		canvas.drawColor(Color.BLACK);//if this is not set reset button doesn't work :(
+		canvas.drawColor(Color.BLACK);
 		
 		Rect r = new Rect(left, top, right, bottom);
 		canvas.drawRect(r, paint);
@@ -171,6 +170,7 @@ public class DrawGrapView extends SurfaceView implements Callback {
 		}
 		holder.unlockCanvasAndPost(canvas);
 	}
+	
 	private void resetGrap(){
 		for(int i = 0; i < grap.size(); i++){
 			grap.get(i).clear();
@@ -180,6 +180,7 @@ public class DrawGrapView extends SurfaceView implements Callback {
 		edgeV.clear();
 		vertexPoint.clear();
 	}
+	
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 			screenWidth = getWidth();
